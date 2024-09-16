@@ -1,8 +1,10 @@
 using ATMapp.Domain.Entities;
+using ATMapp.Domain.Interfaces;
+using ATMapp.UI;
 
 namespace ATMapp.App;
 
-public class ATMApp
+public class ATMApp : IUserLogin
 {
     List<UserAccount> userAccountList = new List<UserAccount>
     {
@@ -11,4 +13,14 @@ public class ATMApp
         new UserAccount(3,334455,123000,123123125,"Peter",20000.90m,0,false),
     };
     UserAccount selectedAccount;
+    public void CheckUserCardNumberAndPassword()
+    {
+        bool IsCorrectLogin = false;
+
+        UserAccount tempUserAccount = new UserAccount();
+
+        tempUserAccount.CardNumber = Validator.Convert<long>("card number");
+        tempUserAccount.CardPin = Convert.ToInt32(Utility.GetSecretInput("enter your card PIN"));
+
+    }
 }

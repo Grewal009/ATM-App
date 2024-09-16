@@ -22,4 +22,8 @@ public class UserAccount
         TotalLogin = totalLogin;
         IsLocked = isLocked;
     }
+
+    public UserAccount()
+    {
+    }
 }
