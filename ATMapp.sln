@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMapp", "ATMapp\ATMapp.csproj", "{1F7EEC85-4E91-49E7-86F1-66F04AF5FFC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F7EEC85-4E91-49E7-86F1-66F04AF5FFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7EEC85-4E91-49E7-86F1-66F04AF5FFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7EEC85-4E91-49E7-86F1-66F04AF5FFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7EEC85-4E91-49E7-86F1-66F04AF5FFC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
