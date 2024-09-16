@@ -28,8 +28,9 @@ public static class Validator
             catch (Exception e)
             {
                 //Console.WriteLine(e);
-                Console.WriteLine("invalid input. try again.");
+                //Console.WriteLine("invalid input. try again.");
                 //throw;
+                Utility.PrintMessage("Invvlid input. try again", false);
             }
             
         }
