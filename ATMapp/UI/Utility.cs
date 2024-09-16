@@ -75,7 +75,7 @@ public static class Utility
 
     public static void PressEnterToContinue()
     {
-        Console.WriteLine("\nPress enter to continue...");
+        Console.WriteLine("Press enter to continue...");
         Console.ReadLine();
     }
 

@@ -2,9 +2,11 @@
 using ATMapp.UI;
 
 AppScreen.Welcome();
-
-ATMApp atmApp = new ATMApp();
-atmApp.CheckUserCardNumberAndPassword();
+ATMApp app = new ATMApp();
+app.InitializeData();
+app.CheckUserCardNumberAndPassword();
+app.Welcome();
 
 Utility.PressEnterToContinue();
+
 

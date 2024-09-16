@@ -39,5 +39,13 @@ public static class AppScreen
         Utility.PrintDotAnimation();
     }
 
-   
+    internal static void PrintLockScreen()
+    {
+        Console.Clear();
+        Utility.PrintMessage("Your account is locked. Please call customer service or go to the nearest branch to unlock your account. Thank you.", true);
+        Utility.PressEnterToContinue();
+        Environment.Exit(1);
+    }
+
+
 }
