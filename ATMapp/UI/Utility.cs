@@ -4,6 +4,16 @@ namespace ATMapp.UI;
 
 public static class Utility
 {
+    
+    internal static void PrintDotAnimation(int timer = 10)
+    {
+        for (int i = 0; i < timer; i++)
+        {
+            Console.Write(".");
+            Thread.Sleep(300);
+        }
+        Console.Clear();
+    }
     public static string GetSecretInput(string prompt)
     {
         bool isPrompt = true;

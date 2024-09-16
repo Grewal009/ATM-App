@@ -16,11 +16,12 @@ public class ATMApp : IUserLogin
     public void CheckUserCardNumberAndPassword()
     {
         bool IsCorrectLogin = false;
+        
 
-        UserAccount tempUserAccount = new UserAccount();
+        UserAccount inputAccount = AppScreen.UserLoginForm();
 
-        tempUserAccount.CardNumber = Validator.Convert<long>("card number");
-        tempUserAccount.CardPin = Convert.ToInt32(Utility.GetSecretInput("enter your card PIN"));
-
+        AppScreen.LogInProgress();
     }
+
+    
 }

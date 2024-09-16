@@ -1,3 +1,5 @@
+using ATMapp.Domain.Entities;
+
 namespace ATMapp.UI;
 
 public static class AppScreen
@@ -20,6 +22,22 @@ public static class AppScreen
 
         Utility.PressEnterToContinue();
     }
-
     
+    
+    internal static UserAccount UserLoginForm()
+    {
+        UserAccount tempUserAccount = new UserAccount();
+
+        tempUserAccount.CardNumber = Validator.Convert<long>("card number");
+        tempUserAccount.CardPin = Convert.ToInt32(Utility.GetSecretInput("enter your card PIN"));
+        return tempUserAccount;
+    }
+
+    internal static void LogInProgress()
+    {
+        Console.WriteLine("\nChecking card number and PIN...");
+        Utility.PrintDotAnimation();
+    }
+
+   
 }
