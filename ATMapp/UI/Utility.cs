@@ -5,7 +5,14 @@ namespace ATMapp.UI;
 
 public static class Utility
 {
+    private static long transId;
+    
     private static CultureInfo culture = new CultureInfo("nb-NO");
+    
+    public static long GetTransactionId()
+    {
+        return ++transId;
+    }
     internal static void PrintDotAnimation(int timer = 10)
     {
         for (int i = 0; i < timer; i++)

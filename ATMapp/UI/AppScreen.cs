@@ -4,6 +4,7 @@ namespace ATMapp.UI;
 
 public static class AppScreen
 {
+    internal const string cur = "Kr ";
     internal static void Welcome()
     {
         //clear the console

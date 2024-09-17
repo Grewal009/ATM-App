@@ -2,15 +2,17 @@ using ATMapp.Domain.Entities;
 using ATMapp.Domain.Enums;
 using ATMapp.Domain.Interfaces;
 using ATMapp.UI;
-using static ATMapp.Domain.Enums.AppMenu;
+
 
 namespace ATMapp.App;
 
-public class ATMApp : IUserLogin, IUserAccountActions
+public class ATMApp : IUserLogin, IUserAccountActions, ITransaction
 {
     private List<UserAccount> userAccountList;
 
     private UserAccount selectedAccount;
+
+    private List<Transaction> listOfTransaction;
 
     public void Run()
     {
@@ -33,6 +35,7 @@ public class ATMApp : IUserLogin, IUserAccountActions
             new UserAccount(3, 334455, 123000, 123123125, "Peter", 20000.90m, 0,
                 false),
         };
+        listOfTransaction = new List<Transaction>();
     }
 
     public void CheckUserCardNumberAndPassword()
@@ -91,7 +94,7 @@ public class ATMApp : IUserLogin, IUserAccountActions
                 CheckBalance();
                 break;
             case (int)AppMenu.PlaceDeposits:
-                Console.WriteLine("placing deposits...");
+                PlaceDeposit();
                 break;
             case (int)AppMenu.MakeWithdrawal:
                 Console.WriteLine("making withdrawal...");
@@ -121,10 +124,82 @@ public class ATMApp : IUserLogin, IUserAccountActions
 
     public void PlaceDeposit()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Only multiple of 500 and 1000 Kr are allowed.");
+        var transaction_amt = Validator.Convert<int>($"amount {AppScreen.cur}");
+        
+        Console.WriteLine("Checking and counting bank notes.");
+        Utility.PrintDotAnimation();
+        Console.WriteLine("");
+        
+        if(transaction_amt<=0)
+        {
+            Utility.PrintMessage("Amount needs to be greater than zero. Try again.");
+            return;
+        }
+
+        if (transaction_amt%500 !=0)
+        {
+            Utility.PrintMessage("Enter deposit amount in multiples of 500 or 1000. Try again.");
+            return;
+        }
+
+        if (PreviewBankNotesCount(transaction_amt)==false)
+        {
+            Utility.PrintMessage("You have cancelled your action",false);
+        }
+        
+        //bind transaction details to transaction object
+        InsertTransaction(selectedAccount.Id,TransactionType.Deposits,
+            transaction_amt,"");
+        
+        //update account balance
+        selectedAccount.AccountBalance += transaction_amt;
+        
+        //print success message
+        Utility.PrintMessage($"Your deposits of {Utility.FormatAmount
+            (transaction_amt)} was successful.",true);
+
+
+
     }
 
     public void MakeWithdrawal()
+    {
+        throw new NotImplementedException();
+    }
+
+    private bool PreviewBankNotesCount(int amount)
+    {
+        int thousandNotesCount = amount / 1000;
+        int fiveHundredNotesCount = (amount % 1000) / 500;
+        Console.WriteLine("Summary:");
+        Console.WriteLine($"{AppScreen.cur}1000 X {thousandNotesCount} = {1000 * thousandNotesCount}");
+        Console.WriteLine($"{AppScreen.cur}500 X {fiveHundredNotesCount} = {500 * fiveHundredNotesCount}");
+        Console.WriteLine($"Total amount: {Utility.FormatAmount(amount)}\n");
+
+        int opt = Validator.Convert<int>("1 to confirm");
+        return opt.Equals(1);
+    }
+
+
+    public void InsertTransaction(long userBankAccountId, TransactionType transType,
+        decimal transAmount, string desc)
+    {
+        var transaction = new Transaction()
+        {
+            TransactionId = Utility.GetTransactionId(),
+            UserBankAccountID = userBankAccountId,
+            TransactionDate = DateTime.Now,
+            TransactionType = transType,
+            TransactionAmount = transAmount,
+            Description = desc,
+        };
+        
+        listOfTransaction.Add(transaction);
+        
+    }
+
+    public void ViewTransaction()
     {
         throw new NotImplementedException();
     }
