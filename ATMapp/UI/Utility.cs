@@ -24,7 +24,7 @@ public static class Utility
         while (true)
         {
             if (isPrompt)
-                Console.WriteLine(prompt);
+                Console.Write(prompt);
             isPrompt = false;
             
             ConsoleKeyInfo inputKey = Console.ReadKey(true);
@@ -58,7 +58,7 @@ public static class Utility
         return input.ToString();
     }
 
-    public static void PrintMessage(string msg, bool success)
+    public static void PrintMessage(string msg, bool success=true)
     {
         if (success)
         {
@@ -81,7 +81,7 @@ public static class Utility
 
     public static string GetUserInput(string prompt)
     {
-        Console.WriteLine($"Enter {prompt}");
+        Console.Write($"Enter {prompt}: ");
         return Console.ReadLine();
     }
 }

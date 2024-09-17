@@ -29,7 +29,7 @@ public static class AppScreen
         UserAccount tempUserAccount = new UserAccount();
 
         tempUserAccount.CardNumber = Validator.Convert<long>("card number");
-        tempUserAccount.CardPin = Convert.ToInt32(Utility.GetSecretInput("enter your card PIN"));
+        tempUserAccount.CardPin = Convert.ToInt32(Utility.GetSecretInput("enter your card PIN: "));
         return tempUserAccount;
     }
 
@@ -47,5 +47,29 @@ public static class AppScreen
         Environment.Exit(1);
     }
 
+    internal static void WelcomeCustomer(string fullName)
+    {
+        Console.WriteLine($"welcome back, {fullName}");
+        Utility.PressEnterToContinue();
+    }
 
+    internal static void DisplayAppMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("********** My ATM App Menu **********");
+        Console.WriteLine("1. Account Balance                  :");
+        Console.WriteLine("2. Cash Deposit                     :");
+        Console.WriteLine("3. Withdrawal                       :");
+        Console.WriteLine("4. Transfer                         :");
+        Console.WriteLine("5. Transactions                     :");
+        Console.WriteLine("6. Logout                           :");
+        
+    }
+
+    internal static void LouOutProgress()
+    {
+        Console.WriteLine("Thank you for using My ATM app.");
+        Utility.PrintDotAnimation();
+        Console.Clear();
+    }
 }

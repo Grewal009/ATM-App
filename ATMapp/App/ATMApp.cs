@@ -1,6 +1,8 @@
 using ATMapp.Domain.Entities;
+using ATMapp.Domain.Enums;
 using ATMapp.Domain.Interfaces;
 using ATMapp.UI;
+using static ATMapp.Domain.Enums.AppMenu;
 
 namespace ATMapp.App;
 
@@ -9,6 +11,16 @@ public class ATMApp : IUserLogin
     private List<UserAccount> userAccountList;
 
     private UserAccount selectedAccount;
+
+    public void Run()
+    {
+        AppScreen.Welcome();
+        CheckUserCardNumberAndPassword();
+        AppScreen.WelcomeCustomer(selectedAccount.FullName);
+        AppScreen.DisplayAppMenu();
+        ProcessMenuOptions();
+        
+    }
 
     public void InitializeData()
     {
@@ -71,8 +83,35 @@ public class ATMApp : IUserLogin
         
     }
 
-    public void Welcome()
+    private void ProcessMenuOptions()
     {
-        Console.WriteLine($"welcome back, {selectedAccount.FullName}");
+        switch (Validator.Convert<int>("option"))
+        {
+            case (int)AppMenu.CheckBalance:
+                Console.WriteLine("checking account balance...");
+                break;
+            case (int)AppMenu.PlaceDeposits:
+                Console.WriteLine("placing deposits...");
+                break;
+            case (int)AppMenu.MakeWithdrawal:
+                Console.WriteLine("making withdrawal...");
+                break;
+            case (int)AppMenu.InternalTransfer:
+                Console.WriteLine("making transfer...");
+                break;
+            case (int)AppMenu.ViewTransaction:
+                Console.WriteLine("view transactions...");
+                break;
+            case (int)AppMenu.Logout:
+                AppScreen.LouOutProgress();
+                Utility.PrintMessage("You have successfully loggeg out. Please collect your ATM card.");
+                Run();
+                break;
+            default:
+                Utility.PrintMessage("invalid option!!!",false);
+                break;
+        }
     }
+
+
 }
