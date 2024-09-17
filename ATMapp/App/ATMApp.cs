@@ -16,6 +16,13 @@ public class ATMApp : IUserLogin, IUserAccountActions, ITransaction
 
     private const decimal minimumKeptAmount = 500;
 
+    private readonly AppScreen _appScreen;
+
+    public ATMApp()
+    {
+        _appScreen = new AppScreen();
+    }
+
     public void Run()
     {
         AppScreen.Welcome();
@@ -102,7 +109,8 @@ public class ATMApp : IUserLogin, IUserAccountActions, ITransaction
                 MakeWithdrawal();
                 break;
             case (int)AppMenu.InternalTransfer:
-                Console.WriteLine("making transfer...");
+                var internalTransfer = _appScreen.InternalTransferForm();
+                ProcessInternalTransfer(internalTransfer);
                 break;
             case (int)AppMenu.ViewTransaction:
                 Console.WriteLine("view transactions...");
@@ -254,5 +262,70 @@ public class ATMApp : IUserLogin, IUserAccountActions, ITransaction
     {
         throw new NotImplementedException();
     }
-    
+
+    private void ProcessInternalTransfer(InternalTransfer internalTransfer)
+    {
+        if (internalTransfer.TransferAmount <= 0)
+        {
+            Utility.PrintMessage("Amount needs to be more than zero. Try again.", false);
+            return;
+        }
+        
+        //check senders account balance
+        if (internalTransfer.TransferAmount > selectedAccount.AccountBalance)
+        {
+            Utility.PrintMessage($"Transfer failed. You do not have enough balance to transfer {Utility.FormatAmount(internalTransfer.TransferAmount)}", false);
+            return;
+        }
+
+        //check mimimum kept amount
+        if ((selectedAccount.AccountBalance - internalTransfer.TransferAmount) < minimumKeptAmount)
+        {
+            Utility.PrintMessage($"Transfer failed. Your account needs to have minimum {Utility.FormatAmount(minimumKeptAmount)}", false);
+                    return;
+        }
+        
+        //check recipient account number is valid       (LINQ)
+        var selectedBankAccountReceiver = (from userAcc in userAccountList
+            where userAcc.AccountNumber == internalTransfer
+                .RecipientBankAccountNumber
+            select userAcc).FirstOrDefault();
+
+        if (selectedBankAccountReceiver == null)
+        {
+            Utility.PrintMessage($"Transfer failed. Recipient bank account number is invalid.", false);
+            return;
+        }
+
+        //check receiver's name
+        if (selectedBankAccountReceiver.FullName.ToUpper() != internalTransfer
+            .RecipientBankAccountName.ToUpper())
+        {
+            Utility.PrintMessage($"Transfer failed. Recipient's bank account name is invalid",false);
+            return;
+        }
+        
+        //add transaction to transactions record
+        InsertTransaction(selectedAccount.Id,TransactionType.Transfer,
+            -internalTransfer.TransferAmount,
+            "Transfered "+$"{selectedBankAccountReceiver.AccountNumber}({selectedBankAccountReceiver.FullName.ToUpper()})");
+        
+        //update senders account
+        selectedAccount.AccountBalance -= internalTransfer.TransferAmount;
+        
+        //add transaction record-receiver
+        InsertTransaction(selectedBankAccountReceiver.Id,TransactionType
+            .Transfer,internalTransfer.TransferAmount,"Transferred from "+$"{selectedAccount.AccountNumber} ({selectedAccount.FullName.ToUpper()})");
+        
+        //update receiver's account balance
+        selectedBankAccountReceiver.AccountBalance +=
+            internalTransfer.TransferAmount;
+        
+        //print success message
+        Utility.PrintMessage($"You have successfully transferred {Utility
+            .FormatAmount(internalTransfer.TransferAmount)} to "+ 
+            $"{internalTransfer.RecipientBankAccountName.ToUpper()}",true);
+        
+    }
+
 }

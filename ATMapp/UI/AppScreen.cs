@@ -2,7 +2,7 @@ using ATMapp.Domain.Entities;
 
 namespace ATMapp.UI;
 
-public static class AppScreen
+public  class AppScreen
 {
     internal const string cur = "Kr ";
     internal static void Welcome()
@@ -118,6 +118,17 @@ public static class AppScreen
             
         }
         
+    }
+
+    internal InternalTransfer InternalTransferForm()
+    {
+        var internalTransfer = new InternalTransfer();
+        internalTransfer.RecipientBankAccountNumber = Validator.Convert<long>("recipient account number");
+        internalTransfer.TransferAmount =
+            Validator.Convert<decimal>($"amount {cur}");
+        internalTransfer.RecipientBankAccountName =
+            Utility.GetUserInput("recipient name: ");
+        return internalTransfer;
     }
 
 }
