@@ -73,4 +73,51 @@ public static class AppScreen
         Utility.PrintDotAnimation();
         Console.Clear();
     }
+
+    internal static int SelectAmount()
+    {
+        Console.WriteLine("");
+        Console.WriteLine("1.{0}500",cur);
+        Console.WriteLine("2.{0}1000",cur);
+        Console.WriteLine("3.{0}2000",cur);
+        Console.WriteLine("4.{0}5000",cur);
+        Console.WriteLine("5.{0}10000",cur);
+        Console.WriteLine("6.{0}20000",cur);
+        Console.WriteLine("0.other");
+        Console.WriteLine("");
+        int selectedAmount = Validator.Convert<int>("option:");
+
+        switch (selectedAmount)
+        {
+            case 1:
+                return 500;
+            break;
+            case 2:
+                return 1000;
+                break;
+            case 3:
+                return 2000;
+                break;
+            case 4:
+                return 5000;
+                break;
+            case 5:
+                return 10000;
+                break;
+            case 6:
+                return 20000;
+                break;
+            case 0:
+                return 0;
+                break;
+            default:
+                Utility.PrintMessage("Invalid input. Try again.",false);
+                SelectAmount();
+                return -1;
+            break;
+            
+        }
+        
+    }
+
 }
