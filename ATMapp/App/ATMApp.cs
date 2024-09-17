@@ -6,7 +6,7 @@ using static ATMapp.Domain.Enums.AppMenu;
 
 namespace ATMapp.App;
 
-public class ATMApp : IUserLogin
+public class ATMApp : IUserLogin, IUserAccountActions
 {
     private List<UserAccount> userAccountList;
 
@@ -88,7 +88,7 @@ public class ATMApp : IUserLogin
         switch (Validator.Convert<int>("option"))
         {
             case (int)AppMenu.CheckBalance:
-                Console.WriteLine("checking account balance...");
+                CheckBalance();
                 break;
             case (int)AppMenu.PlaceDeposits:
                 Console.WriteLine("placing deposits...");
@@ -114,4 +114,18 @@ public class ATMApp : IUserLogin
     }
 
 
+    public void CheckBalance()
+    {
+        Utility.PrintMessage($"Your account balance is: {Utility.FormatAmount(selectedAccount.AccountBalance)}");
+    }
+
+    public void PlaceDeposit()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void MakeWithdrawal()
+    {
+        throw new NotImplementedException();
+    }
 }

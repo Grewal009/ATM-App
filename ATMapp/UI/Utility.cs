@@ -1,10 +1,11 @@
+using System.Globalization;
 using System.Text;
 
 namespace ATMapp.UI;
 
 public static class Utility
 {
-    
+    private static CultureInfo culture = new CultureInfo("nb-NO");
     internal static void PrintDotAnimation(int timer = 10)
     {
         for (int i = 0; i < timer; i++)
@@ -84,4 +85,11 @@ public static class Utility
         Console.Write($"Enter {prompt}: ");
         return Console.ReadLine();
     }
+
+    public static string FormatAmount(decimal amt)
+    {
+        
+        return string.Format(culture, "{0:C2}", amt); //three parameters ->currency symbol, desired no of decimal places in the result string, amt stands for actual amount
+    }
+
 }
