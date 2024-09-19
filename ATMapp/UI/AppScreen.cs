@@ -112,7 +112,6 @@ public  class AppScreen
                 break;
             default:
                 Utility.PrintMessage("Invalid input. Try again.",false);
-                SelectAmount();
                 return -1;
             break;
             
